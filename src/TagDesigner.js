@@ -4,18 +4,14 @@ import {
   Circle, 
   Rect, 
   Text, 
-  Line, 
-  Group,
-  Point,
-  Color,
-  Gradient
+  Line
 } from 'fabric';
 
 const TagDesigner = ({ onLogout, onPageChange }) => {
   const canvasRef = useRef(null);
   const [canvas, setCanvas] = useState(null);
-  const [canvasWidth, setCanvasWidth] = useState(800);
-  const [canvasHeight, setCanvasHeight] = useState(600);
+  const [canvasWidth] = useState(800);
+  const [canvasHeight] = useState(600);
   const [selectedTool, setSelectedTool] = useState('select');
   const [textValue, setTextValue] = useState('');
   const [fontSize, setFontSize] = useState(16);
@@ -25,6 +21,23 @@ const TagDesigner = ({ onLogout, onPageChange }) => {
   const [lineWidth, setLineWidth] = useState(2);
   const [showRulers, setShowRulers] = useState(true);
   const [zoom, setZoom] = useState(100);
+
+  // Handle selection callback
+  const handleSelection = useCallback(() => {
+    const activeObject = canvas?.getActiveObject();
+    if (activeObject) {
+      if (activeObject.type === 'text') {
+        setTextValue(activeObject.text || '');
+        setFontSize(activeObject.fontSize || 16);
+        setFontFamily(activeObject.fontFamily || 'Arial');
+        setTextColor(activeObject.fill || '#000000');
+      }
+    }
+  }, [canvas]);
+
+  const handleSelectionCleared = useCallback(() => {
+    setTextValue('');
+  }, []);
 
   // Initialize canvas
   useEffect(() => {
@@ -45,7 +58,7 @@ const TagDesigner = ({ onLogout, onPageChange }) => {
         fabricCanvas.dispose();
       };
     }
-  }, [canvas, canvasWidth, canvasHeight]);
+  }, [canvas, canvasWidth, canvasHeight, handleSelection, handleSelectionCleared]);
 
   // Add rulers function
   const addRulers = useCallback(() => {
@@ -113,22 +126,6 @@ const TagDesigner = ({ onLogout, onPageChange }) => {
   useEffect(() => {
     addRulers();
   }, [addRulers]);
-
-  const handleSelection = () => {
-    const activeObject = canvas.getActiveObject();
-    if (activeObject) {
-      if (activeObject.type === 'text') {
-        setTextValue(activeObject.text || '');
-        setFontSize(activeObject.fontSize || 16);
-        setFontFamily(activeObject.fontFamily || 'Arial');
-        setTextColor(activeObject.fill || '#000000');
-      }
-    }
-  };
-
-  const handleSelectionCleared = () => {
-    setTextValue('');
-  };
 
   const addText = () => {
     if (!canvas) return;
@@ -234,7 +231,7 @@ const TagDesigner = ({ onLogout, onPageChange }) => {
     setZoom(newZoom);
   };
 
-  const handleCanvasClick = (e) => {
+  const handleCanvasClick = useCallback((e) => {
     if (!canvas) return;
 
     const pointer = canvas.getPointer(e.e);
@@ -253,7 +250,7 @@ const TagDesigner = ({ onLogout, onPageChange }) => {
       canvas.setActiveObject(text);
       canvas.renderAll();
     }
-  };
+  }, [canvas, selectedTool, textValue, fontSize, fontFamily, textColor]);
 
   useEffect(() => {
     if (canvas) {
