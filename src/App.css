@@ -1,0 +1,410 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* App container */
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background with starry night sky */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #0a0a2a 0%, #1a1a3a 50%, #2a2a4a 100%);
+  z-index: -2;
+}
+
+/* Stars effect */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+    radial-gradient(2px 2px at 160px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 200px 60px, #fff, transparent),
+    radial-gradient(2px 2px at 240px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 280px 90px, #fff, transparent),
+    radial-gradient(2px 2px at 320px 20px, #fff, transparent),
+    radial-gradient(1px 1px at 360px 70px, #fff, transparent),
+    radial-gradient(2px 2px at 400px 50px, #fff, transparent),
+    radial-gradient(1px 1px at 440px 80px, #fff, transparent),
+    radial-gradient(2px 2px at 480px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 520px 60px, #fff, transparent),
+    radial-gradient(2px 2px at 560px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 600px 90px, #fff, transparent),
+    radial-gradient(2px 2px at 640px 20px, #fff, transparent),
+    radial-gradient(1px 1px at 680px 70px, #fff, transparent),
+    radial-gradient(2px 2px at 720px 50px, #fff, transparent),
+    radial-gradient(1px 1px at 760px 80px, #fff, transparent),
+    radial-gradient(2px 2px at 800px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 840px 60px, #fff, transparent),
+    radial-gradient(2px 2px at 880px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 920px 90px, #fff, transparent),
+    radial-gradient(2px 2px at 960px 20px, #fff, transparent),
+    radial-gradient(1px 1px at 1000px 70px, #fff, transparent);
+  background-repeat: repeat;
+  background-size: 1000px 100px;
+  animation: twinkle 20s linear infinite;
+}
+
+@keyframes twinkle {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-100px); }
+}
+
+/* Tree silhouette */
+.tree {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  width: 200px;
+  height: 300px;
+}
+
+.tree::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 100px;
+  background: #3d2b1f;
+  border-radius: 10px;
+}
+
+.tree::after {
+  content: '';
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, #8B4513 0%, #654321 50%, #3d2b1f 100%);
+  border-radius: 75px 75px 0 0;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* Login Modal */
+.login-modal {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: 600px;
+  max-width: 90vw;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Modal Header */
+.modal-header {
+  background: linear-gradient(to bottom right, #ff8c00, #ff6b00);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.app-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 30px;
+}
+
+.login-content {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+/* Left Graphic */
+.left-graphic {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graph-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.network-graphic {
+  width: 150px;
+  height: 150px;
+}
+
+/* Login Form */
+.login-form {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.form-group input.focused {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.login-btn {
+  background: linear-gradient(to bottom right, #ff8c00, #ff6b00);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(255, 140, 0, 0.3);
+}
+
+.login-btn:hover {
+  background: linear-gradient(to bottom right, #e67e00, #e55a00);
+}
+
+.forgot-btn {
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.forgot-btn:hover {
+  background: #e9e9e9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .left-graphic {
+    order: 2;
+  }
+  
+  .login-form {
+    order: 1;
+  }
+  
+  .network-graphic {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Tag Designer Styles */
+.tag-designer {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.toolbar {
+  width: 300px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.tool-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.tool-section:last-child {
+  border-bottom: none;
+}
+
+.tool-section h3 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.tool-section button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tool-section button:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.tool-section button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.tool-section input[type="text"],
+.tool-section input[type="number"],
+.tool-section select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.tool-section input[type="color"] {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tool-section input[type="range"] {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.tool-section label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tool-section label input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+.canvas-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e9ecef;
+  overflow: auto;
+}
+
+.canvas-container canvas {
+  border: 1px solid #ddd;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
