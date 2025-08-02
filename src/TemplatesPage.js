@@ -186,6 +186,7 @@ const TemplatesPage = ({ onLogout, onPageChange }) => {
     setShowOrientationPopup(true);
     setSelectedOrientation('Portrait');
     setIsPopupMinimized(false);
+    console.log('Template selected:', templateType, 'Orientation set to Portrait');
   };
 
   const handleFilterClick = () => {
@@ -581,13 +582,7 @@ const TemplatesPage = ({ onLogout, onPageChange }) => {
                           <i className="fas fa-tags text-lg mb-1 opacity-90 drop-shadow-sm"></i>
                           <span className="text-xs font-medium leading-tight opacity-95 drop-shadow-sm" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Store Tags</span>
                         </div>
-                        <div
-                          className={`flex flex-col items-center justify-center px-1 py-3 text-white cursor-pointer transition-all duration-200 text-center h-20 gap-1 hover:bg-white hover:bg-opacity-10 ${activeTab === 'designer' ? 'bg-white bg-opacity-20' : ''}`}
-                          onClick={() => onPageChange('tag-designer')}
-                        >
-                          <i className="fas fa-paint-brush text-lg mb-1 opacity-90 drop-shadow-sm"></i>
-                          <span className="text-xs font-medium leading-tight opacity-95 drop-shadow-sm" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Tag Designer</span>
-                        </div>
+
           </div>
           
           {/* Bottom section buttons */}
@@ -896,7 +891,20 @@ const TemplatesPage = ({ onLogout, onPageChange }) => {
                     onClick={() => {
                       console.log('Creating template:', selectedTemplate, selectedOrientation);
                       setShowOrientationPopup(false);
-                      setSelectedOrientation('Portrait');
+                      
+                      // Navigate to Fabric Canvas page when 1UP and Portrait are selected
+                      console.log('Continue clicked. Template:', selectedTemplate, 'Orientation:', selectedOrientation);
+                      if (selectedTemplate === '1UP' && selectedOrientation === 'Portrait') {
+                        console.log('Navigating to fabric-canvas page');
+                        onPageChange('fabric-canvas');
+                      } else {
+                        console.log('Condition not met:', { selectedTemplate, selectedOrientation });
+                        // For testing, let's also navigate for any 1UP selection
+                        if (selectedTemplate === '1UP') {
+                          console.log('Navigating to fabric-canvas page (1UP only)');
+                          onPageChange('fabric-canvas');
+                        }
+                      }
                     }}
                   >Continue</button>
                 </div>

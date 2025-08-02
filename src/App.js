@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import TemplatesPage from './TemplatesPage';
 import StoreTagsPage from './StoreTagsPage';
-import TagDesigner from './TagDesigner';
+import FabricCanvasPage from './FabricCanvasPage';
 
 const NetworkImage = () => {
   return (
@@ -49,15 +49,17 @@ function App() {
   };
 
   const handlePageChange = (page) => {
+    console.log('Page change requested:', page);
     setCurrentPage(page);
   };
 
   // If logged in, show appropriate page
   if (isLoggedIn) {
+    console.log('Current page:', currentPage);
     if (currentPage === 'store-tags') {
       return <StoreTagsPage onLogout={handleLogout} onPageChange={handlePageChange} />;
-    } else if (currentPage === 'tag-designer') {
-      return <TagDesigner onLogout={handleLogout} onPageChange={handlePageChange} />;
+    } else if (currentPage === 'fabric-canvas') {
+      return <FabricCanvasPage onLogout={handleLogout} onPageChange={handlePageChange} />;
     } else {
       return <TemplatesPage onLogout={handleLogout} onPageChange={handlePageChange} />;
     }

@@ -449,13 +449,7 @@ const StoreTagsPage = ({ onLogout, onPageChange }) => {
               <i className="fas fa-tags text-lg mb-1 opacity-90"></i>
               <span className="text-xs font-medium leading-tight opacity-95">Store Tags</span>
             </div>
-            <div 
-              className="flex flex-col items-center justify-center px-1 py-3 text-white cursor-pointer transition-all duration-200 text-center h-20 gap-1 hover:bg-white hover:bg-opacity-10"
-              onClick={() => onPageChange('tag-designer')}
-            >
-              <i className="fas fa-paint-brush text-lg mb-1 opacity-90"></i>
-              <span className="text-xs font-medium leading-tight opacity-95">Tag Designer</span>
-            </div>
+
           </div>
           
           {/* Bottom section buttons */}
