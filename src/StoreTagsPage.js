@@ -870,7 +870,11 @@ const StoreTagsPage = ({ onLogout, onPageChange }) => {
                     onClick={() => {
                       console.log('Creating template:', selectedTemplate, selectedOrientation);
                       setShowOrientationPopup(false);
-                      setSelectedOrientation('Portrait');
+                      
+                      // Navigate to Fabric Canvas page when template is selected
+                      console.log('Continue clicked. Template:', selectedTemplate, 'Orientation:', selectedOrientation);
+                      console.log('Navigating to fabric-canvas page');
+                      onPageChange('fabric-canvas');
                     }}
                   >Continue</button>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Canvas, Line, Polygon } from 'fabric';
+import { Canvas, Line } from 'fabric';
 
 const FabricCanvasPage = ({ onLogout, onPageChange }) => {
   const canvasRef = useRef(null);
@@ -7,9 +7,14 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
 
   const [activeTab, setActiveTab] = useState('editor');
   const [showNewDropdown, setShowNewDropdown] = useState(false);
+  const [showOrientationPopup, setShowOrientationPopup] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState('');
+  const [selectedOrientation, setSelectedOrientation] = useState('Portrait');
+  const [isPopupMinimized, setIsPopupMinimized] = useState(false);
+  const [isPopupMaximized, setIsPopupMaximized] = useState(false);
   const [galleryExpanded, setGalleryExpanded] = useState(false);
   const [activeCategory, setActiveCategory] = useState('basic');
-  const [arrowGalleryExpanded, setArrowGalleryExpanded] = useState(false);
+
 
   // Template options for New dropdown
   const templateOptions = [
@@ -103,250 +108,7 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
     };
   }, []);
 
-  // Create Fabric.js arrows when arrow category is selected
-  useEffect(() => {
-    if (activeCategory === 'arrow') {
-      const createArrow = (canvasId, arrowType) => {
-        const canvas = new Canvas(canvasId, {
-          width: 48,
-          height: 32,
-          backgroundColor: 'transparent',
-          selection: false,
-          evented: false,
-        });
-
-        let line, triangle;
-
-        switch (arrowType) {
-          case 'arrow1':
-            // Arrow 1: Blunt triangular head
-            line = new Line([8, 16, 40, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            triangle = new Polygon([
-              { x: 8, y: 8 },
-              { x: 8, y: 24 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            break;
-
-          case 'arrow2':
-            // Arrow 2: Elongated pointed head
-            line = new Line([6, 16, 40, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            triangle = new Polygon([
-              { x: 6, y: 6 },
-              { x: 6, y: 26 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            break;
-
-          case 'arrow4':
-            // Arrow 4: Same as Arrow 1
-            line = new Line([8, 16, 40, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            triangle = new Polygon([
-              { x: 8, y: 8 },
-              { x: 8, y: 24 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            break;
-
-          case 'arrow5':
-            // Arrow 5: Same as Arrow 2
-            line = new Line([6, 16, 40, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            triangle = new Polygon([
-              { x: 6, y: 6 },
-              { x: 6, y: 26 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            break;
-
-          case 'arrow7':
-            // Arrow 7: Blunt head with fishtail
-            line = new Line([8, 16, 36, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            triangle = new Polygon([
-              { x: 8, y: 8 },
-              { x: 8, y: 24 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            // Add fishtail notch
-            const fishtail = new Polygon([
-              { x: 36, y: 12 },
-              { x: 40, y: 16 },
-              { x: 36, y: 20 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            canvas.add(line);
-            canvas.add(triangle);
-            canvas.add(fishtail);
-            canvas.renderAll();
-            return;
-
-          case 'arrow8':
-            // Arrow 8: Elongated head with fishtail
-            line = new Line([6, 16, 36, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            triangle = new Polygon([
-              { x: 6, y: 6 },
-              { x: 6, y: 26 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            // Add fishtail notch
-            const fishtail2 = new Polygon([
-              { x: 36, y: 12 },
-              { x: 40, y: 16 },
-              { x: 36, y: 20 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            canvas.add(line);
-            canvas.add(triangle);
-            canvas.add(fishtail2);
-            canvas.renderAll();
-            return;
-
-          case 'doubleArrow2':
-            // Double Arrow 2: Double-headed arrow
-            line = new Line([8, 16, 40, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            const leftTriangle = new Polygon([
-              { x: 8, y: 8 },
-              { x: 8, y: 24 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            const rightTriangle = new Polygon([
-              { x: 40, y: 8 },
-              { x: 40, y: 24 },
-              { x: 48, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            canvas.add(line);
-            canvas.add(leftTriangle);
-            canvas.add(rightTriangle);
-            canvas.renderAll();
-            return;
-
-          case 'doubleArrow3':
-            // Double Arrow 3: Same as Double Arrow 2
-            line = new Line([8, 16, 40, 16], {
-              stroke: '#06b6d4',
-              strokeWidth: 4,
-              selectable: false,
-              evented: false,
-            });
-            const leftTriangle2 = new Polygon([
-              { x: 8, y: 8 },
-              { x: 8, y: 24 },
-              { x: 0, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            const rightTriangle2 = new Polygon([
-              { x: 40, y: 8 },
-              { x: 40, y: 24 },
-              { x: 48, y: 16 }
-            ], {
-              fill: '#06b6d4',
-              selectable: false,
-              evented: false,
-            });
-            canvas.add(line);
-            canvas.add(leftTriangle2);
-            canvas.add(rightTriangle2);
-            canvas.renderAll();
-            return;
-
-          default:
-            // Default case for unknown arrow types
-            break;
-        }
-
-        canvas.add(line);
-        canvas.add(triangle);
-        canvas.renderAll();
-      };
-
-      // Create arrows after a short delay to ensure DOM is ready
-      setTimeout(() => {
-        createArrow('arrow1', 'arrow1');
-        createArrow('arrow2', 'arrow2');
-        createArrow('arrow4', 'arrow4');
-        createArrow('arrow5', 'arrow5');
-        createArrow('arrow7', 'arrow7');
-        createArrow('arrow8', 'arrow8');
-        createArrow('doubleArrow2', 'doubleArrow2');
-        createArrow('doubleArrow3', 'doubleArrow3');
-      }, 100);
-    }
-  }, [activeCategory]);
+  
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -442,9 +204,12 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
 
   const handleNewTemplateSelect = (templateType) => {
     console.log('Creating new template:', templateType);
+    setSelectedTemplate(templateType);
     setShowNewDropdown(false);
-    // Navigate to templates page with the selected template
-    onPageChange('templates');
+    setShowOrientationPopup(true);
+    setSelectedOrientation('Portrait');
+    setIsPopupMinimized(false);
+    console.log('Template selected:', templateType, 'Orientation set to Portrait');
   };
 
   const handleTabClick = (tab) => {
@@ -626,7 +391,7 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
                 {/* Close Button - Active */}
                 <div className="flex flex-col items-center gap-3">
                   <button className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer">
-                    <i className="fas fa-arrow-left text-white text-xs"></i>
+                    <i className="fas fa-times text-white text-xs"></i>
                   </button>
                   <span className="text-xs text-black font-medium">Close</span>
             </div>
@@ -745,6 +510,7 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
                          >
                            Arrow
                          </div>
+                         
                        </div>
                      
                        {/* Close button at bottom */}
@@ -819,185 +585,193 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
                                <span className="text-xs text-black mt-1 text-center">Star 6</span>
                              </div>
                            </>
-                                                   ) : (
-                            <>
-                                                            {/* Default Arrow Gallery (2x4 Grid) */}
-                              {!arrowGalleryExpanded ? (
-                                <div className="grid grid-cols-2 gap-4">
-                                  {/* Row 1 - Arrow Shapes */}
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrow-left text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.5)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Arrow</span>
-                                  </div>
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrow-left text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.2)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Arrow 2</span>
-                                  </div>
-                                  
-                                  {/* Row 2 - Arrow Shapes */}
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrow-left text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.5)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Arrow</span>
-                                  </div>
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrow-left text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.2)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Arrow 5</span>
-                                  </div>
-                                  
-                                  {/* Row 3 - Arrow Shapes */}
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrow-left text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.3)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Arrow</span>
-                                  </div>
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrow-left text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.1)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Arrow 8</span>
-                                  </div>
-                                  
-                                  {/* Row 4 - Arrow Shapes */}
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrows-alt-h text-cyan-400 text-3xl"></i>
-                                    <span className="text-xs text-black mt-2 text-center">Double A Double Arrow 2</span>
-                                  </div>
-                                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                    <i className="fas fa-arrows-alt-h text-cyan-400 text-3xl" style={{ transform: 'scaleX(1.2)' }}></i>
-                                    <span className="text-xs text-black mt-2 text-center">Double Arrow 2</span>
-                                  </div>
-                                </div>
-                                                            ) : (
-                                 <div className="grid grid-cols-3 gap-5">
-                                   {/* Expanded Arrow Gallery (3x4 Grid) */}
-                                   {/* Row 1 - Arrow Shapes */}
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.5)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 1</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.2)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 2</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.4)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 3</span>
-                                   </div>
-                                   
-                                   {/* Row 2 - Arrow Shapes */}
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.5)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 4</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.2)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 5</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.3)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 6</span>
-                                   </div>
-                                   
-                                   {/* Row 3 - Arrow Shapes */}
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.3)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 7</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.1)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Arrow 8</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrows-alt-h text-cyan-400 text-4xl"></i>
-                                     <span className="text-xs text-black mt-2 text-center">Double Arrow 1</span>
-                                   </div>
-                                   
-                                   {/* Row 4 - Arrow Shapes */}
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrows-alt-h text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.2)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Double Arrow 2</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrows-alt-h text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.1)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Double Arrow 2</span>
-                                   </div>
-                                   <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                                     <i className="fas fa-arrows-alt-h text-cyan-400 text-4xl" style={{ transform: 'scaleX(1.3)' }}></i>
-                                     <span className="text-xs text-black mt-2 text-center">Double Arrow 4</span>
-                                   </div>
-                                 </div>
-                               )}
-                            </>
-                          )}
+                         ) : activeCategory === 'arrow' ? (
+                           <>
+                             {/* Row 1 - Arrow Shapes */}
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 1</span>
+                             </div>
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 2</span>
+                             </div>
+                             
+                             {/* Row 2 - Arrow Shapes */}
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 4</span>
+                             </div>
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 5</span>
+                             </div>
+                             
+                             {/* Row 3 - Arrow Shapes */}
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(-1)' }}></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 7</span>
+                             </div>
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-4xl" style={{ transform: 'scaleX(-1)' }}></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 8</span>
+                             </div>
+                             
+                             {/* Row 4 - Arrow Shapes */}
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrows-alt-h text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Double Arrow 2</span>
+                             </div>
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrows-alt-h text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Double Arrow 3</span>
+                             </div>
+                             
+                             {/* Row 5 - Additional Arrow Shapes */}
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-up text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Up Arrow</span>
+                             </div>
+                             <div className="w-20 h-20 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-down text-cyan-400 text-4xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Down Arrow</span>
+                             </div>
+                           </>
+                         ) : null}
                        </div>
                      ) : (
                        <div className="grid grid-cols-3 gap-4">
-                         {/* Row 1 - Extended Shapes */}
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-14 bg-cyan-400 rounded-full"></div>
-                           <span className="text-xs text-black mt-1 text-center">Ellipse</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-14 bg-cyan-400 rounded-lg"></div>
-                           <span className="text-xs text-black mt-1 text-center">Rounded Rectangle</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-14 bg-cyan-400 rounded-full" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Cloud</span>
-                         </div>
-                         
-                         {/* Row 2 - Extended Shapes */}
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-14 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Right Triangle</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-14 bg-cyan-400 rounded"></div>
-                           <span className="text-xs text-black mt-1 text-center">Rectangle</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-14 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Triangle</span>
-                         </div>
-                         
-                         {/* Row 3 - Extended Shapes */}
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Pentagon</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Heptagon</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Hexagon</span>
-                         </div>
-                         
-                         {/* Row 4 - Extended Shapes */}
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%)' }}></div>
-                           <span className="text-xs text-black mt-1 text-center">Octagon</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-14 h-14 bg-cyan-400 rounded relative">
-                             <div className="absolute inset-0 flex items-center justify-center">
-                               <div className="w-12 h-0.5 bg-white"></div>
+                         {activeCategory === 'basic' ? (
+                           <>
+                             {/* Row 1 - Extended Basic Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-14 bg-cyan-400 rounded-full"></div>
+                               <span className="text-xs text-black mt-1 text-center">Ellipse</span>
                              </div>
-                             <div className="absolute inset-0 flex items-center justify-center">
-                               <div className="w-0.5 h-12 bg-white"></div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-14 bg-cyan-400 rounded-lg"></div>
+                               <span className="text-xs text-black mt-1 text-center">Rounded Rectangle</span>
                              </div>
-                           </div>
-                           <span className="text-xs text-black mt-1 text-center">Cross</span>
-                         </div>
-                         <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
-                           <div className="w-14 h-14 bg-cyan-400 rounded relative">
-                             <div className="absolute inset-0 flex items-center justify-center">
-                               <div className="w-12 h-0.5 bg-white"></div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-14 bg-cyan-400 rounded-full" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Cloud</span>
                              </div>
-                             <div className="absolute inset-0 flex items-center justify-center">
-                               <div className="w-0.5 h-12 bg-white"></div>
+                             
+                             {/* Row 2 - Extended Basic Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-14 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Right Triangle</span>
                              </div>
-                           </div>
-                           <span className="text-xs text-black mt-1 text-center">Cross 2</span>
-                         </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-14 bg-cyan-400 rounded"></div>
+                               <span className="text-xs text-black mt-1 text-center">Rectangle</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-14 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Triangle</span>
+                             </div>
+                             
+                             {/* Row 3 - Extended Basic Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Pentagon</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Heptagon</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Hexagon</span>
+                             </div>
+                             
+                             {/* Row 4 - Extended Basic Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-16 h-16 bg-cyan-400 rounded" style={{ clipPath: 'polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%)' }}></div>
+                               <span className="text-xs text-black mt-1 text-center">Octagon</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-14 h-14 bg-cyan-400 rounded relative">
+                                 <div className="absolute inset-0 flex items-center justify-center">
+                                   <div className="w-12 h-0.5 bg-white"></div>
+                                 </div>
+                                 <div className="absolute inset-0 flex items-center justify-center">
+                                   <div className="w-0.5 h-12 bg-white"></div>
+                                 </div>
+                               </div>
+                               <span className="text-xs text-black mt-1 text-center">Cross</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <div className="w-14 h-14 bg-cyan-400 rounded relative">
+                                 <div className="absolute inset-0 flex items-center justify-center">
+                                   <div className="w-12 h-0.5 bg-white"></div>
+                                 </div>
+                                 <div className="absolute inset-0 flex items-center justify-center">
+                                   <div className="w-0.5 h-12 bg-white"></div>
+                                 </div>
+                               </div>
+                               <span className="text-xs text-black mt-1 text-center">Cross 2</span>
+                             </div>
+                           </>
+                         ) : activeCategory === 'arrow' ? (
+                           <>
+                             {/* Row 1 - Extended Arrow Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 1</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 2</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 4</span>
+                             </div>
+                             
+                             {/* Row 2 - Extended Arrow Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 5</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-5xl" style={{ transform: 'scaleX(-1)' }}></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 7</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-left text-cyan-400 text-5xl" style={{ transform: 'scaleX(-1)' }}></i>
+                               <span className="text-xs text-black mt-1 text-center">Arrow 8</span>
+                             </div>
+                             
+                             {/* Row 3 - Extended Arrow Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrows-alt-h text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Double Arrow 2</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrows-alt-h text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Double Arrow 3</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-up text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Up Arrow</span>
+                             </div>
+                             
+                             {/* Row 4 - Extended Arrow Shapes */}
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-down text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Down Arrow</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-arrow-right text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Right Arrow</span>
+                             </div>
+                             <div className="w-28 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center border border-gray-200">
+                               <i className="fas fa-long-arrow-alt-left text-cyan-400 text-5xl"></i>
+                               <span className="text-xs text-black mt-1 text-center">Long Arrow</span>
+                             </div>
+                           </>
+                         ) : null}
                        </div>
                      )}
                    </div>
@@ -1006,18 +780,14 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
                    <div className="p-4 border-t border-gray-200 flex items-center justify-between text-xs text-gray-600">
                      <div className="flex items-center">
                        <i 
-                         className={`fas fa-chevron-${activeCategory === 'basic' ? (galleryExpanded ? 'right' : 'left') : (arrowGalleryExpanded ? 'right' : 'left')} cursor-pointer mr-2`}
+                         className={`fas fa-chevron-${galleryExpanded ? 'right' : 'left'} cursor-pointer mr-2`}
                          onClick={() => {
-                           if (activeCategory === 'basic') {
-                             setGalleryExpanded(!galleryExpanded);
-                           } else if (activeCategory === 'arrow') {
-                             setArrowGalleryExpanded(!arrowGalleryExpanded);
-                           }
+                           setGalleryExpanded(!galleryExpanded);
                          }}
                        ></i>
                        <span>View Galleries</span>
                      </div>
-                     {(activeCategory === 'basic' && galleryExpanded) || (activeCategory === 'arrow' && arrowGalleryExpanded) ? (
+                     {galleryExpanded ? (
                        <i className="fas fa-chevron-right cursor-pointer"></i>
                      ) : null}
                    </div>
@@ -1027,6 +797,181 @@ const FabricCanvasPage = ({ onLogout, onPageChange }) => {
                                                                        
         </div>
       </div>
+
+      {/* Orientation Popup */}
+      {showOrientationPopup && !isPopupMinimized && (
+        <div className="fixed inset-0 flex items-center justify-center z-[2000]">
+          <div 
+            className={`${isPopupMaximized ? 'w-full h-full' : 'w-[270px] h-[300px]'} flex flex-col transition-all duration-200`}
+            style={{
+              backgroundColor: 'rgba(240, 240, 240, 0.6)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1.8px solid #59f9ff',
+              borderRadius: '0',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+              fontSize: '12px'
+            }}
+          >
+            {/* Popup Header */}
+            <div 
+              className="px-2 py-2 flex items-center justify-between text-sm text-black h-[35px] bg-transparent font-normal"
+              style={{ paddingLeft: '9px' }}
+            >
+              <span>Select Page Orientation</span>
+              <div className="flex gap-0">
+                <button 
+                  className="bg-transparent border-none w-[35px] h-[35px] cursor-pointer text-xl text-black flex items-center justify-center font-bold transition-colors duration-200 hover:bg-gray-300"
+                  style={{ fontFamily: 'Segoe UI, sans-serif' }}
+                  onClick={() => {
+                    setIsPopupMinimized(true);
+                    setIsPopupMaximized(false);
+                  }}
+                >−</button>
+                <button 
+                  className="bg-transparent border-none w-[35px] h-[35px] cursor-pointer text-xl text-black flex items-center justify-center font-bold transition-colors duration-200 hover:bg-gray-300"
+                  style={{ fontFamily: 'Segoe UI, sans-serif' }}
+                  onClick={() => setIsPopupMaximized(!isPopupMaximized)}
+                >{isPopupMaximized ? '🗗' : '□'}</button>
+                <button 
+                  className="bg-transparent border-none w-[35px] h-[35px] cursor-pointer text-xl text-black flex items-center justify-center font-bold transition-colors duration-200 hover:bg-red-500 hover:text-white"
+                  style={{ fontFamily: 'Segoe UI, sans-serif' }}
+                  onClick={() => {
+                    setShowOrientationPopup(false);
+                    setSelectedOrientation('Portrait');
+                    setIsPopupMaximized(false);
+                    setIsPopupMinimized(false);
+                  }}
+                >×</button>
+              </div>
+            </div>
+            
+            {/* Popup Content */}
+            <div 
+              className="flex-1 flex flex-col bg-transparent"
+              style={isPopupMaximized ? {
+                position: 'relative',
+                height: '100%',
+                backgroundColor: 'transparent'
+              } : {}}
+            >
+              {/* Orientation Section (centered) */}
+              <div 
+                className="flex-1 flex flex-col justify-center items-center"
+                style={{ padding: '30px 20px 20px 20px' }}
+              >
+                <div 
+                  className="flex justify-center gap-12"
+                  style={{ marginBottom: '-20px' }}
+                >
+                  {/* Portrait Option */}
+                  <div 
+                    className="flex flex-col items-center cursor-pointer transition-all duration-200"
+                    style={{ padding: '5px' }}
+                    onClick={() => setSelectedOrientation('Portrait')}
+                  >
+                    <div 
+                      className="flex items-center justify-center mb-3 border-none relative text-white transition-all duration-200"
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                        backgroundColor: selectedOrientation === 'Portrait' ? '#20a8d8' : '#9e9e9e',
+                        fontSize: '24px'
+                      }}
+                    >
+                      <i className="fas fa-bars" style={{ transform: 'rotate(90deg)' }}></i>
+                    </div>
+                    <span 
+                      className="text-gray-800"
+                      style={{ 
+                        fontSize: '17px', 
+                        fontWeight: 'normal',
+                        fontFamily: 'Segoe UI, sans-serif'
+                      }} 
+                    >Portrait</span>
+                  </div>
+                  
+                  {/* Landscape Option */}
+                  <div 
+                    className="flex flex-col items-center cursor-pointer transition-all duration-200"
+                    style={{ padding: '5px' }}
+                    onClick={() => setSelectedOrientation('Landscape')}
+                  >
+                    <div 
+                      className="flex items-center justify-center mb-3 border-none relative text-white transition-all duration-200"
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                        backgroundColor: selectedOrientation === 'Landscape' ? '#20a8d8' : '#9e9e9e',
+                        fontSize: '24px'
+                      }}
+                    >
+                      <i className="fas fa-bars"></i>
+                    </div>
+                    <span 
+                      className="text-gray-800"
+                      style={{ 
+                        fontSize: '17px', 
+                        fontWeight: 'normal',
+                        fontFamily: 'Segoe UI, sans-serif'
+                      }} 
+                    >Landscape</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Continue Section (bottom) */}
+              <div 
+                className="text-center bg-transparent"
+                style={{ 
+                  padding: '15px 20px 20px 20px',
+                  borderTop: 'none' 
+                }}
+              >
+                <button 
+                  className="border-none cursor-pointer text-gray-800 transition-all duration-200 hover:bg-gray-300"
+                  style={{
+                    backgroundColor: '#dbdbdb',
+                    padding: '15px 17px',
+                    marginBottom: '-20px',
+                    fontSize: '13px',
+                    fontFamily: 'Segoe UI, sans-serif',
+                    fontWeight: 'normal'
+                  }}
+                  onClick={() => {
+                    console.log('Creating template:', selectedTemplate, selectedOrientation);
+                    setShowOrientationPopup(false);
+                    
+                    // Since we're already on the Fabric Canvas page, just close the popup
+                    console.log('Continue clicked. Template:', selectedTemplate, 'Orientation:', selectedOrientation);
+                    console.log('Template created successfully with orientation:', selectedOrientation);
+                    
+                    // Here you can add any additional logic for template creation
+                    // For now, we just close the popup and stay on the current page
+                  }}
+                >Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Minimized Popup Tab */}
+      {showOrientationPopup && isPopupMinimized && (
+        <div 
+          className="fixed bottom-2 left-[85px] px-3 py-1 cursor-pointer text-xs text-gray-800 z-[1500] rounded-t shadow-lg transition-all duration-200"
+          style={{
+            background: 'linear-gradient(to bottom, #e8e8e8, #d0d0d0)',
+            border: '1px solid #999',
+            borderBottom: 'none',
+            fontFamily: 'Segoe UI, sans-serif'
+          }}
+          onClick={() => setIsPopupMinimized(false)}
+        >
+          <span className="whitespace-nowrap">Select Page Orientation</span>
+        </div>
+      )}
     </div>
   );
 };

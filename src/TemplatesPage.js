@@ -892,19 +892,10 @@ const TemplatesPage = ({ onLogout, onPageChange }) => {
                       console.log('Creating template:', selectedTemplate, selectedOrientation);
                       setShowOrientationPopup(false);
                       
-                      // Navigate to Fabric Canvas page when 1UP and Portrait are selected
+                      // Navigate to Fabric Canvas page for any template selection
                       console.log('Continue clicked. Template:', selectedTemplate, 'Orientation:', selectedOrientation);
-                      if (selectedTemplate === '1UP' && selectedOrientation === 'Portrait') {
-                        console.log('Navigating to fabric-canvas page');
-                        onPageChange('fabric-canvas');
-                      } else {
-                        console.log('Condition not met:', { selectedTemplate, selectedOrientation });
-                        // For testing, let's also navigate for any 1UP selection
-                        if (selectedTemplate === '1UP') {
-                          console.log('Navigating to fabric-canvas page (1UP only)');
-                          onPageChange('fabric-canvas');
-                        }
-                      }
+                      console.log('Navigating to fabric-canvas page');
+                      onPageChange('fabric-canvas');
                     }}
                   >Continue</button>
                 </div>
