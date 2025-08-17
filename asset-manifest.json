@@ -1,15 +1,16 @@
 {
   "files": {
     "main.css": "/iVantage360-Tags/static/css/main.bc50cd5d.css",
-    "main.js": "/iVantage360-Tags/static/js/main.5711e65a.js",
+    "main.js": "/iVantage360-Tags/static/js/main.3f5f20f0.js",
     "static/js/453.96453769.chunk.js": "/iVantage360-Tags/static/js/453.96453769.chunk.js",
+    "static/media/network-graph.png": "/iVantage360-Tags/static/media/network-graph.8632879de55d1d1a6e4b.png",
     "index.html": "/iVantage360-Tags/index.html",
     "main.bc50cd5d.css.map": "/iVantage360-Tags/static/css/main.bc50cd5d.css.map",
-    "main.5711e65a.js.map": "/iVantage360-Tags/static/js/main.5711e65a.js.map",
+    "main.3f5f20f0.js.map": "/iVantage360-Tags/static/js/main.3f5f20f0.js.map",
     "453.96453769.chunk.js.map": "/iVantage360-Tags/static/js/453.96453769.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bc50cd5d.css",
-    "static/js/main.5711e65a.js"
+    "static/js/main.3f5f20f0.js"
   ]
 }
