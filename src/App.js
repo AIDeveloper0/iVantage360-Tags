@@ -4,10 +4,13 @@ import TemplatesPage from './TemplatesPage';
 import StoreTagsPage from './StoreTagsPage';
 import FabricCanvasPage from './FabricCanvasPage';
 
+// ✅ Import the image from src/assets
+import networkImg from './assets/network-graph.png';
+
 const NetworkImage = () => {
   return (
     <img 
-      src="/network-graph.png" 
+      src={networkImg} 
       alt="Network Graph" 
       className="network-graphic"
       style={{
@@ -23,9 +26,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentPage, setCurrentPage] = useState('templates');
   const [formData, setFormData] = useState({
-    companyCode: 'afhstX',
-    username: 'a51nha',
-    password: '••••••••'
+    companyCode: '',
+    username: '',
+    password: ''
   });
 
   const handleInputChange = (e) => {
@@ -39,7 +42,6 @@ function App() {
   const handleLogin = (e) => {
     e.preventDefault();
     console.log('Login attempt:', formData);
-    // Simulate successful login
     setIsLoggedIn(true);
   };
 
@@ -53,7 +55,6 @@ function App() {
     setCurrentPage(page);
   };
 
-  // If logged in, show appropriate page
   if (isLoggedIn) {
     console.log('Current page:', currentPage);
     if (currentPage === 'store-tags') {
@@ -80,12 +81,11 @@ function App() {
           <div className="header-left">
             <div className="logo-icon">
               <img 
-                src="/network-graph.png" 
-                alt="Network Graph" 
+                src="/logo192.png"  // still from public
+                alt="App Logo" 
                 style={{
                   width: '24px',
-                  height: '24px',
-                  filter: 'brightness(0) invert(1)'
+                  height: '24px'
                 }}
               />
             </div>
